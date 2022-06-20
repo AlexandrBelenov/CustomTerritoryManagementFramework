@@ -62,18 +62,28 @@ public with sharing class TerritoryService {
     }
 
     public List<Territory__c> findTerritoriesWithChildren(Map<Id, Territory__c> territoryMap) {
-        List<Territory__c> result = new List<Territory__c>();
         Map<Id, Territory__c> childTerritories = new Map<Id, Territory__c>([
                 SELECT Id, Name, Territory__c
                 FROM Territory__c
                 WHERE Territory__c IN :territoryMap.keySet()
         ]);
 
+        Set<Territory__c> result = new Set<Territory__c>();
         for (Id id : childTerritories.keySet()) {
             final Id parentId = childTerritories.get(id).Territory__c;
             result.add(territoryMap.get(parentId));
         }
 
+        return new List<Territory__c>(result);
+    }
+
+    public List<Territory__c> findTerritoriesWithAccounts(Map<Id, Territory__c> territoryMap) {
+        List<Territory__c> result = new List<Territory__c>();
+        Map<Id, Account> assignedAccounts = new Map<Id, Account>([
+                SELECT Id, Name, Territory__c
+                FROM Account
+                WHERE Territory__c IN :territoryMap.keySet()
+        ]);
         return result;
     }
 

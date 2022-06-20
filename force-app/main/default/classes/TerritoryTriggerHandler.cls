@@ -29,6 +29,7 @@ public with sharing class TerritoryTriggerHandler {
             this.addError(hasChildrenList, Constants.ERROR_HAS_CHILD_TERRITORIES);
         }
         // Check accounts with the territory. If has assigned account - error
+
     }
 
     private void addError(List<Territory__c> territories, String message) {
