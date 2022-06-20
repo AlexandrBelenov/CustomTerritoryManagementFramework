@@ -87,14 +87,14 @@ public with sharing class UpdateTerritorySharingBatch implements Database.Batcha
         for (Territory__c territory : [SELECT Id FROM Territory__c WHERE Territory__c IN :territoryIds]) {
             childrenIds.add(territory.Id);
         }
-        if (!childrenIds.isEmpty()) {
-            GrantTerritorySharingAccessBatch processChildren = new GrantTerritorySharingAccessBatch(
-                    childrenIds,
-                    this.oldUserId,
-                    this.newUserId
-            );
-            Database.executeBatch(processChildren);
-        }
+//        if (!childrenIds.isEmpty()) {
+//            GrantTerritorySharingAccessBatch processChildren = new GrantTerritorySharingAccessBatch(
+//                    childrenIds,
+//                    this.oldUserId,
+//                    this.newUserId
+//            );
+//            Database.executeBatch(processChildren);
+//        }
     }
 
     public Iterable<Territory__c> start(Database.BatchableContext context) {

@@ -6,9 +6,9 @@ public with sharing class ContactShareRepository {
 
     public static List<ContactShare> getContactShare(Set<Id> contactIds, Id userOrGroupId, String rowCause) {
         return [
-                SELECT Id, UserOrGroupId, RowCause
+                SELECT Id, ContactId, UserOrGroupId, RowCause
                 FROM ContactShare
-                WHERE Id IN :contactIds
+                WHERE ContactId IN :contactIds
                 AND UserOrGroupId = :userOrGroupId
                 AND RowCause = :rowCause
         ];

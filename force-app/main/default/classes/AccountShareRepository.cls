@@ -5,9 +5,9 @@
 public with sharing class AccountShareRepository {
     public static List<AccountShare> getAccountShare(Set<Id> accountIds, Id userOrGroupId, String rowCause) {
         return [
-                SELECT Id, UserOrGroupId, RowCause
+                SELECT Id, AccountId, UserOrGroupId, RowCause
                 FROM AccountShare
-                WHERE Id IN :accountIds
+                WHERE AccountId IN :accountIds
                 AND UserOrGroupId = :userOrGroupId
                 AND RowCause = :rowCause
         ];

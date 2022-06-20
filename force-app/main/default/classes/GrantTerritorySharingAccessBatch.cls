@@ -58,6 +58,14 @@ public with sharing class GrantTerritorySharingAccessBatch implements Database.B
                 Constants.ACCESS_LEVEL_EDIT,
                 Constants.ROW_CAUSE_MANUAL
         );
+
+        try {
+            insert accountShareList;
+            insert contactShareList;
+        } catch (Exception e) {
+            System.debug(e);
+            throw e;
+        }
     }
 
     public void finish(Database.BatchableContext context) {
