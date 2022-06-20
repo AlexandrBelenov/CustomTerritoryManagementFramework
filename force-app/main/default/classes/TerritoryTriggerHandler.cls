@@ -1,0 +1,45 @@
+/**
+ * Created by alexanderbelenov on 19.06.2022.
+ */
+
+public with sharing class TerritoryTriggerHandler {
+
+    private TerritoryService terrService = TerritoryService.getInstance();
+    private TerritoryTriggerHandler() {}
+
+    public void beforeInsert(List<Territory__c> territories) {
+        final List<Territory__c> duplicates = this.terrService.findDuplicatesWithSameParent(territories);
+        if (!duplicates.isEmpty()) {
+            this.addError(duplicates, Constants.ERROR_ALREADY_EXISTS);
+        }
+    }
+
+    public void beforeUpdate(Map<Id, Territory__c> newMap, Map<Id, Territory__c> oldMap) {
+        final List<Territory__c> updatedTerritories = this.terrService.getTerritoriesWithChangedNames(newMap, oldMap);
+        final List<Territory__c> duplicates = this.terrService.findDuplicatesWithSameParent(updatedTerritories);
+        if (!duplicates.isEmpty()) {
+            this.addError(duplicates, Constants.ERROR_ALREADY_EXISTS);
+        }
+    }
+
+    public void beforeDelete(Map<Id, Territory__c> territoryMap) {
+        // TODO: Delete logic here
+        // Check children. If has one - error
+        // Check accounts with the territory. If has assigned account - error
+    }
+
+    private void addError(List<Territory__c> territories, String message) {
+        for (Territory__c territory : territories) {
+            territory.addError(message);
+        }
+    }
+
+    private static TerritoryTriggerHandler instance = null;
+    public static TerritoryTriggerHandler getInstance() {
+        if (instance == null) {
+            instance = new TerritoryTriggerHandler();
+        }
+        return instance;
+    }
+
+}
