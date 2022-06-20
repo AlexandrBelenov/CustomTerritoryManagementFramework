@@ -24,11 +24,15 @@ public with sharing class TerritoryTriggerHandler {
 
     public void beforeDelete(Map<Id, Territory__c> territoryMap) {
         // Check children. If has one - error
-        List<Territory__c> hasChildrenList = this.terrService.findTerritoriesWithChildren(territoryMap);
+        final List<Territory__c> hasChildrenList = this.terrService.findTerritoriesWithChildren(territoryMap);
         if (!hasChildrenList.isEmpty()) {
             this.addError(hasChildrenList, Constants.ERROR_HAS_CHILD_TERRITORIES);
         }
         // Check accounts with the territory. If has assigned account - error
+        final List<Territory__c> hasAccountsList = this.terrService.findTerritoriesWithAccounts(territoryMap);
+        if (!hasAccountsList.isEmpty()) {
+            this.addError(hasAccountsList, Constants.ERROR_HAS_ASSIGNED_ACCOUNTS);
+        }
 
     }
 
