@@ -1,4 +1,3 @@
-
 /**
  * Created by alexanderbelenov on 20.06.2022.
  */
@@ -59,6 +58,22 @@ public with sharing class TerritoryService {
                 result.add(newMap.get(id));
             }
         }
+        return result;
+    }
+
+    public List<Territory__c> findTerritoriesWithChildren(Map<Id, Territory__c> territoryMap) {
+        List<Territory__c> result = new List<Territory__c>();
+        Map<Id, Territory__c> childTerritories = new Map<Id, Territory__c>([
+                SELECT Id, Name, Territory__c
+                FROM Territory__c
+                WHERE Territory__c IN :territoryMap.keySet()
+        ]);
+
+        for (Id id : childTerritories.keySet()) {
+            final Id parentId = childTerritories.get(id).Territory__c;
+            result.add(territoryMap.get(parentId));
+        }
+
         return result;
     }
 

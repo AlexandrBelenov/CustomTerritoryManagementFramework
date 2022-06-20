@@ -10,7 +10,7 @@ public with sharing class TerritoryTriggerHandler {
     public void beforeInsert(List<Territory__c> territories) {
         final List<Territory__c> duplicates = this.terrService.findDuplicatesWithSameParent(territories);
         if (!duplicates.isEmpty()) {
-            this.addError(duplicates, Constants.ERROR_ALREADY_EXISTS);
+            this.addError(duplicates,Constants.ERROR_ALREADY_EXISTS);
         }
     }
 
@@ -23,8 +23,11 @@ public with sharing class TerritoryTriggerHandler {
     }
 
     public void beforeDelete(Map<Id, Territory__c> territoryMap) {
-        // TODO: Delete logic here
         // Check children. If has one - error
+        List<Territory__c> hasChildrenList = this.terrService.findTerritoriesWithChildren(territoryMap);
+        if (!hasChildrenList.isEmpty()) {
+            this.addError(hasChildrenList, Constants.ERROR_HAS_CHILD_TERRITORIES);
+        }
         // Check accounts with the territory. If has assigned account - error
     }
 

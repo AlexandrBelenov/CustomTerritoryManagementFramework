@@ -8,4 +8,5 @@ public with sharing class Constants {
     public static final String ROW_CAUSE_MANUAL = 'Manual';
 
     public static final String ERROR_ALREADY_EXISTS = 'Already exists';
+    public static final String ERROR_HAS_CHILD_TERRITORIES = 'Has child territories';
 }
