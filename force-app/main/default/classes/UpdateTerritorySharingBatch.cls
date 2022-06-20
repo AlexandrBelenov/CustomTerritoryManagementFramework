@@ -3,11 +3,11 @@
  */
 
 public with sharing class UpdateTerritorySharingBatch implements Database.Batchable<Territory__c> {
-    private List<Id> territoryIds;
+    private Set<Id> territoryIds;
     private Id oldUserId;
     private Id newUserId;
 
-    public UpdateTerritorySharingBatch(List<Id> territoryIds, Id oldUserId, Id newUserId) {
+    public UpdateTerritorySharingBatch(Set<Id> territoryIds, Id oldUserId, Id newUserId) {
         this.territoryIds = territoryIds;
         this.oldUserId = oldUserId;
         this.newUserId = newUserId;
@@ -28,7 +28,7 @@ public with sharing class UpdateTerritorySharingBatch implements Database.Batcha
                 SELECT Id, Account__c, Contact__c
                 FROM Reference__c
                 WHERE Account__c In :accountsIdOfTerritories]) {
-            if (reference.Account__c != null) {
+            if (reference.Contact__c != null) {
                 contactsIds.add(reference.Contact__c);
             }
         }
@@ -83,12 +83,12 @@ public with sharing class UpdateTerritorySharingBatch implements Database.Batcha
     }
 
     public void finish(Database.BatchableContext context) {
-        List<Id> childrenIds = new List<Id>();
+        Set<Id> childrenIds = new Set<Id>();
         for (Territory__c territory : [SELECT Id FROM Territory__c WHERE Territory__c IN :territoryIds]) {
             childrenIds.add(territory.Id);
         }
         if (!childrenIds.isEmpty()) {
-            UpdateTerritorySharingBatch processChildren = new UpdateTerritorySharingBatch(
+            GrantTerritorySharingAccessBatch processChildren = new GrantTerritorySharingAccessBatch(
                     childrenIds,
                     this.oldUserId,
                     this.newUserId
@@ -98,10 +98,6 @@ public with sharing class UpdateTerritorySharingBatch implements Database.Batcha
     }
 
     public Iterable<Territory__c> start(Database.BatchableContext context) {
-        return [
-                SELECT Id, Name
-                FROM Territory__c
-                WHERE Id IN :territoryIds
-        ];
+        return TerritoryRepository.getTerritoriesByIds(territoryIds);
     }
 }
