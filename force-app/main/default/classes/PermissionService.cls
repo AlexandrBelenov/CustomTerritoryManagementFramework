@@ -79,12 +79,10 @@ public with sharing class PermissionService {
     }
 
     public void removeAccountPermissions(Set<Id> accountIds, Id userOrGroupId, String rowCause) {
-        System.debug(AccountShareRepository.getAccountShare(accountIds,userOrGroupId,rowCause));
         delete AccountShareRepository.getAccountShare(accountIds,userOrGroupId,rowCause);
     }
 
     public void removeContactPermissions(Set<Id> contactIds, Id userOrGroupId, String rowCause) {
-        System.debug(ContactShareRepository.getContactShare(contactIds, userOrGroupId, rowCause));
         delete ContactShareRepository.getContactShare(contactIds, userOrGroupId, rowCause);
     }
 
