@@ -10,7 +10,7 @@ public with sharing class TerritoryTriggerHandler {
     public void beforeInsert(List<Territory__c> territories) {
         final List<Territory__c> duplicates = this.terrService.findDuplicatesWithSameParent(territories);
         if (!duplicates.isEmpty()) {
-            this.addError(duplicates,Constants.ERROR_ALREADY_EXISTS);
+            this.addError(duplicates, Label.Territory_Name_Already_Exists);
         }
     }
 
@@ -18,7 +18,7 @@ public with sharing class TerritoryTriggerHandler {
         final List<Territory__c> updatedTerritories = this.terrService.getTerritoriesWithChangedNames(newMap, oldMap);
         final List<Territory__c> duplicates = this.terrService.findDuplicatesWithSameParent(updatedTerritories);
         if (!duplicates.isEmpty()) {
-            this.addError(duplicates, Constants.ERROR_ALREADY_EXISTS);
+            this.addError(duplicates, Label.Territory_Name_Already_Exists);
         }
     }
 
@@ -26,12 +26,12 @@ public with sharing class TerritoryTriggerHandler {
         // Check children. If has one - error
         final List<Territory__c> hasChildrenList = this.terrService.findTerritoriesWithChildren(territoryMap);
         if (!hasChildrenList.isEmpty()) {
-            this.addError(hasChildrenList, Constants.ERROR_HAS_CHILD_TERRITORIES);
+            this.addError(hasChildrenList, Label.Cannot_Delete_Has_Child_Territories);
         }
         // Check accounts with the territory. If has assigned account - error
         final List<Territory__c> hasAccountsList = this.terrService.findTerritoriesWithAccounts(territoryMap);
         if (!hasAccountsList.isEmpty()) {
-            this.addError(hasAccountsList, Constants.ERROR_HAS_ASSIGNED_ACCOUNTS);
+            this.addError(hasAccountsList, Label.Cannot_Delete_Has_Assigned_Accounts);
         }
 
     }
