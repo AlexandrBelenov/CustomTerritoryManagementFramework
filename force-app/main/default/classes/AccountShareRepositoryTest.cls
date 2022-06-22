@@ -4,8 +4,7 @@
 @IsTest
 private class AccountShareRepositoryTest {
 
-    @IsTest
-    static void testGetAccountShare() {
+    @IsTest static void testGetAccountShare() {
         User user = [SELECT Id FROM User WHERE Username='oleksandr.bielienov@oleksandrbielienovcorp.coma' LIMIT 1];
         System.runAs(user) {
             User salesUser = [SELECT Id FROM User WHERE Username='salesrep@oleksandrbielienovcorp.coma' LIMIT 1];

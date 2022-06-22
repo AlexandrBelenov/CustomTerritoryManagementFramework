@@ -69,6 +69,8 @@ public with sharing class GrantTerritorySharingAccessBatch implements Database.B
     }
 
     public void finish(Database.BatchableContext context) {
+        System.debug('Finish method');
+        System.debug(this.rootTerritoriesIds);
         Set<Id> childrenIds = TerritoryRepository.getChildIdsOfTerritories(this.rootTerritoriesIds);
         if (!childrenIds.isEmpty()) {
             GrantTerritorySharingAccessBatch processChildren = new GrantTerritorySharingAccessBatch(

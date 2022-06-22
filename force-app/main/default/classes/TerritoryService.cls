@@ -5,18 +5,6 @@
 public with sharing class TerritoryService {
     private TerritoryService() {}
 
-    public List<Territory__c> findDuplicatesInInput(List<Territory__c> territories) {
-        final Map<String, Territory__c> idParentName_Territories = new Map<String, Territory__c>();
-        for (Territory__c territory : territories) {
-            final String compoundKey = territory.Territory__c + territory.Name;
-            idParentName_Territories.put(compoundKey, territory);
-        }
-        for (Territory__c territory : idParentName_Territories.values()) {
-            territories.add(territory);
-        }
-        return territories;
-    }
-
     public List<Territory__c> findDuplicatesWithSameParent(List<Territory__c> territories) {
         // get all parents and names
         final Set<Id> territoryParentIds = new Set<Id>();
@@ -41,7 +29,7 @@ public with sharing class TerritoryService {
             for (Territory__c territory : territories) {
                 if (savedTerritory.Territory__c.equals(territory.Territory__c)
                 && savedTerritory.Name.equals(territory.Name)) {
-                    differences.add(territory);
+                    differences.add(savedTerritory);
                     break;
                 }
             }

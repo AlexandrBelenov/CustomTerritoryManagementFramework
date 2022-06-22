@@ -14,7 +14,6 @@ private class ContactRepositoryTest {
         System.assertEquals(contactMap.size(), 1);
         System.assertEquals(contactMap.keySet(), new Set<Id>{contact2.Id});
     }
-
     @IsTest static void testGetContactsOnlyFromReferencesWithAccounts() {
         Account account1 = new Account(Name='Account1');
         Account account2 = new Account(Name='Account2');

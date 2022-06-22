@@ -4,7 +4,6 @@
 
 @IsTest
 private class ContactShareRepositoryTest {
-
     @IsTest static void testGetContactShare() {
         User user = [SELECT Id FROM User WHERE Username='oleksandr.bielienov@oleksandrbielienovcorp.coma' LIMIT 1];
         System.runAs(user){
