@@ -17,7 +17,7 @@ private class TerritoryServiceTest {
         List<Territory__c> duplicate = service.findDuplicatesWithSameParent(new List<Territory__c> {territory4});
 
         System.assertEquals(duplicate.size(), 1);
-        System.assertEquals(duplicate.get(0).Id, territory3.Id);
+        System.assertEquals(duplicate.get(0).Name, territory3.Name);
     }
 
     @IsTest static void testGetTerritoriesWithChangedNames() {

@@ -29,7 +29,7 @@ public with sharing class TerritoryService {
             for (Territory__c territory : territories) {
                 if (savedTerritory.Territory__c.equals(territory.Territory__c)
                 && savedTerritory.Name.equals(territory.Name)) {
-                    differences.add(savedTerritory);
+                    differences.add(territory);
                     break;
                 }
             }
